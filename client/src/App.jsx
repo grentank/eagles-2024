@@ -5,11 +5,13 @@ import MessagesPage from './components/pages/MessagesPage';
 import LoginPage from './components/pages/LoginPage';
 import SignupPage from './components/pages/SignupPage';
 import OneMessagePage from './components/pages/OneMessagePage';
+import ErrorPage from './components/pages/ErrorPage';
 
 function App() {
   const router = createBrowserRouter([
     {
       element: <Layout />,
+      errorElement: <ErrorPage />,
       children: [
         {
           path: '/',
