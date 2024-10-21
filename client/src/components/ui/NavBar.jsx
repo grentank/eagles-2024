@@ -1,7 +1,7 @@
-import { Box, Button, Flex, HStack, Link } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Link, Text } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
-export default function NavBar() {
+export default function NavBar({ user, logoutHandler }) {
   return (
     <Box bg="teal.500" px={4}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
@@ -20,12 +20,23 @@ export default function NavBar() {
         </HStack>
 
         <HStack spacing={4}>
-          <Button as={RouterLink} to="/login" colorScheme="teal" variant="solid">
-            Войти
-          </Button>
-          <Button as={RouterLink} to="/signup" colorScheme="teal" variant="solid">
-            Зарегистрироваться
-          </Button>
+          {user ? (
+            <>
+              <Text>Привет, {user.name}</Text>
+              <Button onClick={logoutHandler} colorScheme="teal" variant="solid">
+                Выйти
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button as={RouterLink} to="/login" colorScheme="teal" variant="solid">
+                Войти
+              </Button>
+              <Button as={RouterLink} to="/signup" colorScheme="teal" variant="solid">
+                Зарегистрироваться
+              </Button>
+            </>
+          )}
         </HStack>
       </Flex>
     </Box>

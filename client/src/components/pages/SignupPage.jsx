@@ -8,11 +8,12 @@ import {
   FormControl,
   FormLabel,
 } from '@chakra-ui/react';
+import axios from 'axios';
 
-export default function SignupPage() {
+export default function SignupPage({ signupHandler }) {
   const [formData, setFormData] = useState({
     email: '',
-    username: '',
+    name: '',
     password: '',
     confirmPassword: '',
   });
@@ -28,7 +29,7 @@ export default function SignupPage() {
       <Heading as="h1" mb={6} textAlign="center">
         Регистрация
       </Heading>
-      <form>
+      <form onSubmit={(e) => signupHandler(e, formData)}>
         <VStack spacing={4}>
           <FormControl isRequired>
             <FormLabel>Email</FormLabel>
@@ -45,9 +46,9 @@ export default function SignupPage() {
             <FormLabel>Имя пользователя</FormLabel>
             <Input
               type="text"
-              name="username"
+              name="name"
               placeholder="Введите имя пользователя"
-              value={formData.username}
+              value={formData.name}
               onChange={handleChange}
             />
           </FormControl>

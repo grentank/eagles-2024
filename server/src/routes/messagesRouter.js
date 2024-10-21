@@ -16,11 +16,12 @@ messagesRouter
         .status(500)
         .json({ text: 'Ошибка получения сообщений', message: error.message });
     }
-  })
+  })// verifyRefreshToken
   .post(upload.single('img'), async (req, res) => {
     try {
       const { title, body } = req.body;
       const filename = req.file ? req.file.filename : null;
+      // userId: res.locals.user.id
       const newMessage = await Message.create({ title, body, img: filename });
       res.status(201).json(newMessage);
     } catch (error) {

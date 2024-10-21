@@ -11,7 +11,7 @@ import {
   InputRightElement,
 } from '@chakra-ui/react';
 
-export default function LoginPage() {
+export default function LoginPage({ loginHandler}) {
   const [showPass, setShowPass] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -26,17 +26,12 @@ export default function LoginPage() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Логика входа
-  };
-
   return (
     <Box maxW="md" mx="auto" mt={10} p={6} boxShadow="lg" borderRadius="md">
       <Heading as="h1" mb={6} textAlign="center">
         Вход
       </Heading>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => loginHandler(e, formData)}>
         <VStack spacing={4}>
           <FormControl isRequired>
             <FormLabel>Email</FormLabel>
