@@ -1,33 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axiosInstance from '../../services/axiosInstance';
 import { Box, VStack } from '@chakra-ui/react';
 import MessageCard from '../ui/MessageCard';
-import AddMessageForm from '../ui/AddMessageForm';
-import axiosInstance from '../../services/axiosInstance';
 
-export default function MessagesPage({ user }) {
+export default function AccountPage({ user }) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    axiosInstance.get('/messages').then((response) => {
+    axiosInstance.get('/messages/my').then((response) => {
       setMessages(response.data);
     });
   }, []);
-
-  const handleSubmitForm = async (event) => {
-    try {
-      event.preventDefault();
-      const formElement = event.target;
-      const formData = new FormData(formElement);
-      const response = await axiosInstance.post('/messages', formData);
-      if (response.status === 201) {
-        setMessages((prev) => [response.data, ...prev]);
-        formElement.reset();
-      }
-    } catch (error) {
-      console.log(error);
-      alert(`Что-то пошло не так: ${error?.response?.data?.text}`);
-    }
-  };
 
   const handleDeletePost = async (id) => {
     try {
@@ -41,8 +24,6 @@ export default function MessagesPage({ user }) {
   };
   return (
     <Box p={5}>
-      {user && <AddMessageForm handleSubmitForm={handleSubmitForm} />}
-
       <VStack spacing={4}>
         {messages.map((message) => (
           <MessageCard

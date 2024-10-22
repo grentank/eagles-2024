@@ -14,15 +14,15 @@ import {
   FormLabel,
   ButtonGroup,
 } from '@chakra-ui/react';
-import axios from 'axios';
+import axiosInstance from '../../services/axiosInstance';
 
-export default function PostPage() {
+export default function OneMessagePage({ user }) {
   const { messageId } = useParams();
   const [post, setPost] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    axios.get(`/api/messages/${messageId}`).then((response) => {
+    axiosInstance.get(`/messages/${messageId}`).then((response) => {
       setPost(response.data);
     });
   }, [messageId]);
@@ -32,7 +32,10 @@ export default function PostPage() {
       if (e.target.files.length === 0) return;
       const formData = new FormData();
       formData.append('img', e.target.files[0]);
-      const response = await axios.patch(`/api/messages/${messageId}/image`, formData);
+      const response = await axiosInstance.patch(
+        `/messages/${messageId}/image`,
+        formData,
+      );
       setPost(response.data);
     } catch (error) {
       console.log(error);
@@ -44,8 +47,8 @@ export default function PostPage() {
     try {
       e.preventDefault();
       const formData = new FormData(e.target);
-      const response = await axios.patch(
-        `/api/messages/${messageId}`,
+      const response = await axiosInstance.patch(
+        `/messages/${messageId}`,
         Object.fromEntries(formData),
       );
       setPost(response.data);
@@ -90,9 +93,11 @@ export default function PostPage() {
               {post?.title}
             </Heading>
             <Text mb={4}>{post?.body}</Text>
-            <Button colorScheme="teal" onClick={() => setIsEditing(true)}>
-              Редактировать
-            </Button>
+            {user?.id === post.userId && (
+              <Button colorScheme="teal" onClick={() => setIsEditing(true)}>
+                Редактировать
+              </Button>
+            )}
           </VStack>
         )}
 
@@ -102,18 +107,20 @@ export default function PostPage() {
               <Image src={`/images/${post?.img}`} alt={post?.title} maxW="250px" />
             </a>
           </Box>
-          <FormControl>
-            <Button as={FormLabel} colorScheme="teal" htmlFor="file-edit">
-              Заменить картинку
-            </Button>
-            <input
-              type="file"
-              id="file-edit"
-              onChange={editImage}
-              name="img"
-              style={{ display: 'none' }}
-            />
-          </FormControl>
+          {user?.id === post.userId && (
+            <FormControl>
+              <Button as={FormLabel} colorScheme="teal" htmlFor="file-edit">
+                Заменить картинку
+              </Button>
+              <input
+                type="file"
+                id="file-edit"
+                onChange={editImage}
+                name="img"
+                style={{ display: 'none' }}
+              />
+            </FormControl>
+          )}
         </VStack>
       </HStack>
     </Box>

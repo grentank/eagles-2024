@@ -1,7 +1,8 @@
 import { Box, Button, Flex, HStack, Link, Text } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 export default function NavBar({ user, logoutHandler }) {
+  const navigate = useNavigate();
   return (
     <Box bg="teal.500" px={4}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
@@ -22,8 +23,15 @@ export default function NavBar({ user, logoutHandler }) {
         <HStack spacing={4}>
           {user ? (
             <>
-              <Text>Привет, {user.name}</Text>
-              <Button onClick={logoutHandler} colorScheme="teal" variant="solid">
+              <Text color="white">Привет, {user.name}</Text>
+              <Button as={RouterLink} to="/account" colorScheme="teal" variant="solid">
+                Аккаунт
+              </Button>
+              <Button
+                onClick={() => logoutHandler().then(() => navigate('/login'))}
+                colorScheme="teal"
+                variant="solid"
+              >
                 Выйти
               </Button>
             </>

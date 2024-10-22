@@ -2,6 +2,8 @@ const { Router } = require('express');
 const { Message } = require('../../db/models');
 const upload = require('../middlewares/upload');
 const removeImage = require('../utils/removeImage');
+const verifyAccessToken = require('../middlewares/verifyAccessToken');
+const checkMessageOwner = require('../middlewares/checkMessageOwner');
 const messagesRouter = Router();
 
 messagesRouter
@@ -16,13 +18,17 @@ messagesRouter
         .status(500)
         .json({ text: 'Ошибка получения сообщений', message: error.message });
     }
-  })// verifyRefreshToken
-  .post(upload.single('img'), async (req, res) => {
+  })
+  .post(verifyAccessToken, upload.single('img'), async (req, res) => {
     try {
       const { title, body } = req.body;
       const filename = req.file ? req.file.filename : null;
-      // userId: res.locals.user.id
-      const newMessage = await Message.create({ title, body, img: filename });
+      const newMessage = await Message.create({
+        title,
+        body,
+        img: filename,
+        userId: res.locals.user.id,
+      });
       res.status(201).json(newMessage);
     } catch (error) {
       console.log(error);
@@ -30,9 +36,19 @@ messagesRouter
     }
   });
 
+messagesRouter.get('/my', verifyAccessToken, async (req, res) => {
+  try {
+    const messages = await Message.findAll({ where: { userId: res.locals.user.id } });
+    res.json(messages);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ text: 'Ошибка получения сообщения', message: error.message });
+  }
+});
+
 messagesRouter
   .route('/:messageId')
-  .patch(async (req, res) => {
+  .patch(verifyAccessToken, checkMessageOwner, async (req, res) => {
     try {
       const { title, body } = req.body;
       const message = await Message.findByPk(req.params.messageId);
@@ -45,7 +61,7 @@ messagesRouter
         .json({ text: 'Ошибка обновления сообщения', message: error.message });
     }
   })
-  .delete(async (req, res) => {
+  .delete(verifyAccessToken, checkMessageOwner, async (req, res) => {
     try {
       const message = await Message.findByPk(req.params.messageId);
       //   await removeImage(message.img); // Раскомментируй, чтобы картинки не засоряли память
@@ -70,7 +86,7 @@ messagesRouter
 
 messagesRouter
   .route('/:messageId/image')
-  .patch(upload.single('img'), async (req, res) => {
+  .patch(verifyAccessToken, checkMessageOwner, upload.single('img'), async (req, res) => {
     try {
       const oldMessage = await Message.findByPk(req.params.messageId);
       if (req.file) {

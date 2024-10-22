@@ -1,7 +1,8 @@
 import { Box, Button, Heading, HStack, Image, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-export default function MessageCard({ message, onDelete }) {
+export default function MessageCard({ message, onDelete, user }) {
+  // user: undefined | null | { id, name, email }
   return (
     <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={4} w="100%" shadow="md">
       <Heading as="h3" size="md" mb={2}>
@@ -17,7 +18,11 @@ export default function MessageCard({ message, onDelete }) {
       {message.body && <Text mb={4}>{message.body}</Text>}
 
       <HStack justifyContent="space-between">
-        <Button colorScheme="red" onClick={onDelete}>
+        <Button
+          disabled={user?.id !== message.userId}
+          colorScheme="red"
+          onClick={onDelete}
+        >
           &#x2716; Удалить
         </Button>
         <Button
