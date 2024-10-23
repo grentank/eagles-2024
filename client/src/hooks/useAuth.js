@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import axiosInstance, { setAccessToken } from '../services/axiosInstance';
-import useQuery from './useQuery';
 
 export default function useAuth() {
   const [user, setUser] = useState();
-  //   const { data, loading, error } = useQuery('/tokens/refresh');
 
   useEffect(() => {
     axiosInstance
