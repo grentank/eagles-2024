@@ -1,8 +1,11 @@
 import { Box, Button, Flex, HStack, Link, Text } from '@chakra-ui/react';
+import { useContext } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import AuthContext from '../../contexts/authContext';
 
-export default function NavBar({ user, logoutHandler }) {
+export default function NavBar() {
   const navigate = useNavigate();
+  const { user, logoutHandler } = useContext(AuthContext);
   return (
     <Box bg="teal.500" px={4}>
       <Flex h={16} alignItems="center" justifyContent="space-between">

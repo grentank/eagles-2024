@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   Box,
   VStack,
@@ -10,8 +10,10 @@ import {
   InputGroup,
   InputRightElement,
 } from '@chakra-ui/react';
+import AuthContext from '../../contexts/authContext';
 
-export default function LoginPage({ loginHandler}) {
+export default function LoginPage() {
+  const { loginHandler } = useContext(AuthContext);
   const [showPass, setShowPass] = useState(false);
   const [formData, setFormData] = useState({
     email: '',

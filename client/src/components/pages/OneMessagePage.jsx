@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Box,
@@ -15,8 +15,10 @@ import {
   ButtonGroup,
 } from '@chakra-ui/react';
 import axiosInstance from '../../services/axiosInstance';
+import AuthContext from '../../contexts/authContext';
 
-export default function OneMessagePage({ user }) {
+export default function OneMessagePage() {
+  const { user } = useContext(AuthContext);
   const { messageId } = useParams();
   const [post, setPost] = useState(null);
   const [isEditing, setIsEditing] = useState(false);

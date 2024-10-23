@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   Box,
   VStack,
@@ -8,9 +8,10 @@ import {
   FormControl,
   FormLabel,
 } from '@chakra-ui/react';
-import axios from 'axios';
+import AuthContext from '../../contexts/authContext';
 
-export default function SignupPage({ signupHandler }) {
+export default function SignupPage() {
+  const { signupHandler } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     email: '',
     name: '',

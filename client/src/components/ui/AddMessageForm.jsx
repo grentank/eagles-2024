@@ -1,6 +1,9 @@
 import { VStack, HStack, Heading, Input, Textarea, Button } from '@chakra-ui/react';
+import { useContext } from 'react';
+import AuthContext from '../../contexts/authContext';
 
 export default function AddMessageForm({ handleSubmitForm }) {
+  const { user } = useContext(AuthContext);
   return (
     <form onSubmit={handleSubmitForm}>
       <VStack spacing={4} mb={6}>
@@ -15,7 +18,7 @@ export default function AddMessageForm({ handleSubmitForm }) {
 
         <Textarea name="body" placeholder="(необязательно) Напиши подробности" />
 
-        <Button colorScheme="teal" type="submit">
+        <Button disabled={!user} colorScheme="teal" type="submit">
           Запостить
         </Button>
       </VStack>

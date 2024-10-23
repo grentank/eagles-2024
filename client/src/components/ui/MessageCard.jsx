@@ -1,7 +1,10 @@
 import { Box, Button, Heading, HStack, Image, Text } from '@chakra-ui/react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../contexts/authContext';
 
-export default function MessageCard({ message, onDelete, user }) {
+export default function MessageCard({ message, onDelete }) {
+  const { user } = useContext(AuthContext);
   // user: undefined | null | { id, name, email }
   return (
     <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={4} w="100%" shadow="md">
