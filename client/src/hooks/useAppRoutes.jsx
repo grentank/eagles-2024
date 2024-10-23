@@ -1,12 +1,12 @@
-import Layout from './components/Layout';
-import MainPage from './components/pages/MainPage';
-import MessagesPage from './components/pages/MessagesPage';
-import LoginPage from './components/pages/LoginPage';
-import SignupPage from './components/pages/SignupPage';
-import OneMessagePage from './components/pages/OneMessagePage';
-import ErrorPage from './components/pages/ErrorPage';
-import ProtectedRoute from './components/HOC/ProtectedRoute';
-import AccountPage from './components/pages/AccountPage';
+import Layout from '../components/Layout';
+import MainPage from '../components/pages/MainPage';
+import MessagesPage from '../components/pages/MessagesPage';
+import LoginPage from '../components/pages/LoginPage';
+import SignupPage from '../components/pages/SignupPage';
+import OneMessagePage from '../components/pages/OneMessagePage';
+import ErrorPage from '../components/pages/ErrorPage';
+import ProtectedRoute from '../components/HOC/ProtectedRoute';
+import AccountPage from '../components/pages/AccountPage';
 
 export default function useAppRoutes(user) {
   return [
@@ -35,7 +35,7 @@ export default function useAppRoutes(user) {
           ),
         },
         {
-          element: <ProtectedRoute isAllowed={user === null} />,
+          element: <ProtectedRoute isAllowed={!user} />,
           children: [
             {
               path: '/login',

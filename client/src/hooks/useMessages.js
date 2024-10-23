@@ -1,14 +1,8 @@
-import { useEffect, useState } from 'react';
 import axiosInstance from '../services/axiosInstance';
+import useQuery from './useQuery';
 
 export default function useMessages() {
-  const [messages, setMessages] = useState([]);
-
-  useEffect(() => {
-    axiosInstance.get('/messages').then((response) => {
-      setMessages(response.data);
-    });
-  }, []);
+  const { data: messages, loading, error, setData: setMessages } = useQuery('/messages');
 
   const handleSubmitForm = async (event) => {
     try {
@@ -41,5 +35,7 @@ export default function useMessages() {
     messages,
     handleSubmitForm,
     handleDeletePost,
+    loading,
+    error,
   };
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Box,
@@ -13,21 +13,24 @@ import {
   FormControl,
   FormLabel,
   ButtonGroup,
+  Spinner,
 } from '@chakra-ui/react';
 import axiosInstance from '../../services/axiosInstance';
 import AuthContext from '../../contexts/authContext';
+import useQuery from '../../hooks/useQuery';
 
 export default function OneMessagePage() {
   const { user } = useContext(AuthContext);
   const { messageId } = useParams();
-  const [post, setPost] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const { data: post, setData: setPost, loading } = useQuery(`/messages/${messageId}`);
+  // const [post, setPost] = useState(null);
 
-  useEffect(() => {
-    axiosInstance.get(`/messages/${messageId}`).then((response) => {
-      setPost(response.data);
-    });
-  }, [messageId]);
+  // useEffect(() => {
+  //   axiosInstance.get(`/messages/${messageId}`).then((response) => {
+  //     setPost(response.data);
+  //   });
+  // }, [messageId]);
 
   const editImage = async (e) => {
     try {
@@ -61,7 +64,9 @@ export default function OneMessagePage() {
     }
   };
 
-  if (!post) return <div>Загрузка...</div>;
+  console.log({ post });
+
+  if (loading) return <Spinner />;
 
   return (
     <Box p={5}>
@@ -95,7 +100,7 @@ export default function OneMessagePage() {
               {post?.title}
             </Heading>
             <Text mb={4}>{post?.body}</Text>
-            {user?.id === post.userId && (
+            {user?.id === post?.userId && (
               <Button colorScheme="teal" onClick={() => setIsEditing(true)}>
                 Редактировать
               </Button>
@@ -109,7 +114,7 @@ export default function OneMessagePage() {
               <Image src={`/images/${post?.img}`} alt={post?.title} maxW="250px" />
             </a>
           </Box>
-          {user?.id === post.userId && (
+          {user?.id === post?.userId && (
             <FormControl>
               <Button as={FormLabel} colorScheme="teal" htmlFor="file-edit">
                 Заменить картинку

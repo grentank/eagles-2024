@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
 import axiosInstance from '../services/axiosInstance';
+import useQuery from './useQuery';
 
 export default function useMyMessages() {
-  const [messages, setMessages] = useState([]);
+  const { data: messages, setData: setMessages, loading } = useQuery('/messages/my');
+  //   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    axiosInstance.get('/messages/my').then((response) => {
-      setMessages(response.data);
-    });
-  }, []);
+  //   useEffect(() => {
+  //     axiosInstance.get('/messages/my').then((response) => {
+  //       setMessages(response.data);
+  //     });
+  //   }, []);
 
   const handleDeletePost = async (id) => {
     try {
@@ -21,5 +22,5 @@ export default function useMyMessages() {
     }
   };
 
-  return [messages, handleDeletePost];
+  return [messages, handleDeletePost, loading];
 }
