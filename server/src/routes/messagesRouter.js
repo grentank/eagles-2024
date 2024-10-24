@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { Message } = require('../../db/models');
 const upload = require('../middlewares/upload');
-const removeImage = require('../utils/removeImage');
+// const removeImage = require('../utils/removeImage');
 const verifyAccessToken = require('../middlewares/verifyAccessToken');
 const checkMessageOwner = require('../middlewares/checkMessageOwner');
 const messagesRouter = Router();
