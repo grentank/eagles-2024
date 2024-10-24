@@ -4,9 +4,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js",
     "db": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
-    "reseed": "sequelize db:seed:undo:all && sequelize db:seed:all"
+    "reseed": "sequelize db:seed:undo:all && sequelize db:seed:all",
+    "db:setup": "NODE_ENV=production npx sequelize db:migrate && NODE_ENV=production npx sequelize db:seed:all",
+    "start": "NODE_ENV=production node src/server.js"
   },
   "keywords": [],
   "author": "",
