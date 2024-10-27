@@ -18,7 +18,7 @@ export default function AddMessageForm({ handleSubmitForm }) {
 
         <Textarea name="body" placeholder="(необязательно) Напиши подробности" />
 
-        <Button disabled={!user} colorScheme="teal" type="submit">
+        <Button disabled={!user} colorScheme="teal" color="white" type="submit">
           Запостить
         </Button>
       </VStack>

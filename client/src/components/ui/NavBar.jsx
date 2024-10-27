@@ -7,17 +7,17 @@ export default function NavBar() {
   const navigate = useNavigate();
   const { user, logoutHandler } = useContext(AuthContext);
   return (
-    <Box bg="teal.500" px={4}>
+    <Box bg="background.veryLight" px={4}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
         <HStack spacing={8} alignItems="center">
-          <Box color="white" fontWeight="bold" fontSize="xl">
+          <Box color="text.primary" fontWeight="bold" fontSize="xl">
             Кото-пост
           </Box>
           <HStack as="nav" spacing={4}>
-            <Link as={RouterLink} to="/" color="white" fontWeight="medium">
+            <Link as={RouterLink} to="/" color="text.primary" fontWeight="medium">
               Главная
             </Link>
-            <Link as={RouterLink} to="/messages" color="white" fontWeight="medium">
+            <Link as={RouterLink} to="/messages" color="text.primary" fontWeight="medium">
               Сообщения
             </Link>
           </HStack>
@@ -26,13 +26,13 @@ export default function NavBar() {
         <HStack spacing={4}>
           {user ? (
             <>
-              <Text color="white">Привет, {user.name}</Text>
-              <Button as={RouterLink} to="/account" colorScheme="teal" variant="solid">
+              <Text color="accent.main" fontWeight="bold">Привет, {user.name}</Text>
+              <Button as={RouterLink} to="/account" colorScheme="gray" variant="solid">
                 Аккаунт
               </Button>
               <Button
                 onClick={() => logoutHandler().then(() => navigate('/login'))}
-                colorScheme="teal"
+                colorScheme="gray"
                 variant="solid"
               >
                 Выйти
@@ -40,10 +40,10 @@ export default function NavBar() {
             </>
           ) : (
             <>
-              <Button as={RouterLink} to="/login" colorScheme="teal" variant="solid">
+              <Button as={RouterLink} to="/login" colorScheme="gray" variant="solid">
                 Войти
               </Button>
-              <Button as={RouterLink} to="/signup" colorScheme="teal" variant="solid">
+              <Button as={RouterLink} to="/signup" colorScheme="gray" variant="solid">
                 Зарегистрироваться
               </Button>
             </>

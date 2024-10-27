@@ -96,7 +96,7 @@ export default function OneMessagePage() {
             </Heading>
             <Text mb={4}>{post?.body}</Text>
             {user?.id === post.userId && (
-              <Button colorScheme="teal" onClick={() => setIsEditing(true)}>
+              <Button colorScheme="teal" color="white" onClick={() => setIsEditing(true)}>
                 Редактировать
               </Button>
             )}
@@ -111,7 +111,7 @@ export default function OneMessagePage() {
           </Box>
           {user?.id === post.userId && (
             <FormControl>
-              <Button as={FormLabel} colorScheme="teal" htmlFor="file-edit">
+              <Button as={FormLabel} colorScheme="teal" color="white" htmlFor="file-edit">
                 Заменить картинку
               </Button>
               <input

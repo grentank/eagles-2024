@@ -29,7 +29,7 @@ export default function LoginPage() {
   };
 
   return (
-    <Box maxW="md" mx="auto" mt={10} p={6} boxShadow="lg" borderRadius="md">
+    <Box bg="background.veryLight" maxW="md" mx="auto" mt={10} p={6} boxShadow="lg" borderRadius="md">
       <Heading as="h1" mb={6} textAlign="center">
         Вход
       </Heading>
@@ -64,7 +64,7 @@ export default function LoginPage() {
             </InputGroup>
           </FormControl>
 
-          <Button type="submit" colorScheme="teal" size="lg" w="full">
+          <Button type="submit" colorScheme="teal" color="text.light" size="lg" w="full">
             Войти
           </Button>
         </VStack>

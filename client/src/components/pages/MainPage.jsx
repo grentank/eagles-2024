@@ -14,12 +14,12 @@ export default function MainPage() {
   return (
     <Box>
       {/* Приветствие */}
-      <Flex bg="teal.600" color="white" py={20} justify="center" align="center">
+      <Flex bg="background.dark" color="white" py={20} justify="center" align="center">
         <VStack spacing={4} textAlign="center">
-          <Heading as="h1" size="2xl">
+          <Heading color="text.light" as="h1" size="2xl">
             Добро пожаловать в Кото-пост!
           </Heading>
-          <Text fontSize="lg" maxW="600px">
+          <Text color="text.light" fontSize="lg" maxW="600px">
             Открывайте мир котиков, делитесь своими любимыми фото и постами, и
             наслаждайтесь сообществом любителей кошек. Здесь каждый пост — это ода нашим
             пушистым друзьям!
