@@ -1,20 +1,17 @@
 import { useEffect, useState } from 'react';
-import axiosInstance from '../services/axiosInstance';
+import messageService from '../services/messagesService';
 
 export default function useMyMessages() {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    axiosInstance.get('/messages/my').then((response) => {
-      setMessages(response.data);
-    });
+    messageService.getMyMessages().then(setMessages);
   }, []);
 
   const handleDeletePost = async (id) => {
     try {
-      const response = await axiosInstance.delete(`/messages/${id}`);
-      if (response.status === 204)
-        setMessages(messages.filter((message) => message.id !== id));
+      await messageService.deleteMessage(id);
+      setMessages(messages.filter((message) => message.id !== id));
     } catch (error) {
       console.log(error);
       alert(`Что-то пошло не так: ${error?.response?.data?.text}`);

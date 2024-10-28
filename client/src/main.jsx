@@ -5,9 +5,9 @@ import App from './App.jsx';
 import theme from './theme/theme.js';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <ChakraProvider theme={theme}>
-      <App />
-    </ChakraProvider>
-  </StrictMode>,
+  // <StrictMode>
+  <ChakraProvider theme={theme}>
+    <App />
+  </ChakraProvider>,
+  // </StrictMode>,
 );

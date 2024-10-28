@@ -11,6 +11,7 @@ export default function MessageCard({ message, onDelete }) {
       <Heading as="h3" size="md" mb={2}>
         {message.title}
       </Heading>
+      <Text>- {message.User.name}</Text>
 
       {message.img && (
         <Box display="flex" justifyContent="center" mb={4}>

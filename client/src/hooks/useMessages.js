@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import axiosInstance from '../services/axiosInstance';
+import messageService from '../services/messagesService';
 
 export default function useMessages() {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    axiosInstance.get('/messages').then((response) => {
-      setMessages(response.data);
-    });
+    messageService.getMessages().then(setMessages);
   }, []);
 
   const handleSubmitForm = async (event) => {
@@ -15,22 +13,19 @@ export default function useMessages() {
       event.preventDefault();
       const formElement = event.target;
       const formData = new FormData(formElement);
-      const response = await axiosInstance.post('/messages', formData);
-      if (response.status === 201) {
-        setMessages((prev) => [response.data, ...prev]);
-        formElement.reset();
-      }
+      const newMessage = await messageService.addMessage(formData);
+      setMessages((prev) => [newMessage, ...prev]);
+      formElement.reset();
     } catch (error) {
       console.log(error);
-      alert(`Что-то пошло не так: ${error?.response?.data?.text}`);
+      alert(`Что-то пошло не так: ${error?.response?.data?.text || error?.message}`);
     }
   };
 
   const handleDeletePost = async (id) => {
     try {
-      const response = await axiosInstance.delete(`/messages/${id}`);
-      if (response.status === 204)
-        setMessages(messages.filter((message) => message.id !== id));
+      await messageService.deleteMessage(id);
+      setMessages(messages.filter((message) => message.id !== id));
     } catch (error) {
       console.log(error);
       alert(`Что-то пошло не так: ${error?.response?.data?.text}`);

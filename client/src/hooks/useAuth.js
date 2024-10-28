@@ -1,39 +1,29 @@
 import { useEffect, useState } from 'react';
-import axiosInstance, { setAccessToken } from '../services/axiosInstance';
+import authService from '../services/authService';
 
 export default function useAuth() {
   const [user, setUser] = useState();
+  console.log({ user });
 
   useEffect(() => {
-    axiosInstance
-      .get('/tokens/refresh')
-      .then((res) => {
-        setUser(res.data.user);
-        setAccessToken(res.data.accessToken);
-      })
-      .catch(() => {
-        setUser(null);
-      });
+    authService.refresh().then(setUser);
   }, []);
 
   const signupHandler = async (e, formData) => {
     e.preventDefault();
-    const response = await axiosInstance.post('/auth/signup', formData);
-    setUser(response.data.user);
-    setAccessToken(response.data.accessToken);
+    const newUser = await authService.signup(formData);
+    setUser(newUser);
   };
 
   const loginHandler = async (e, formData) => {
     e.preventDefault();
-    const response = await axiosInstance.post('/auth/login', formData);
-    setUser(response.data.user);
-    setAccessToken(response.data.accessToken);
+    const newUser = await authService.login(formData);
+    setUser(newUser);
   };
 
   const logoutHandler = async () => {
-    await axiosInstance.get('/auth/logout');
+    await authService.logout();
     setUser(null);
-    setAccessToken('');
   };
 
   return { user, loginHandler, signupHandler, logoutHandler };
