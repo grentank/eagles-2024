@@ -20,6 +20,9 @@ export default function NavBar() {
             <Link as={RouterLink} to="/messages" color="white" fontWeight="medium">
               Сообщения
             </Link>
+            <Link href="/images/secret.png" color="white" fontWeight="medium">
+              Secret
+            </Link>
           </HStack>
         </HStack>
 
