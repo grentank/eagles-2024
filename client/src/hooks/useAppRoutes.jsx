@@ -7,6 +7,8 @@ import OneMessagePage from '../components/pages/OneMessagePage';
 import ErrorPage from '../components/pages/ErrorPage';
 import ProtectedRoute from '../components/HOC/ProtectedRoute';
 import AccountPage from '../components/pages/AccountPage';
+import EmptyPage from '../components/pages/EmptyPage';
+import Products from '../components/pages/ProductsPage';
 
 export default function useAppRoutes(user) {
   return [
@@ -17,6 +19,14 @@ export default function useAppRoutes(user) {
         {
           path: '/',
           element: <MainPage />,
+        },
+        {
+          path: '/empty',
+          element: <EmptyPage />,
+        },
+        {
+          path: '/products',
+          element: <Products />,
         },
         {
           path: '/messages',

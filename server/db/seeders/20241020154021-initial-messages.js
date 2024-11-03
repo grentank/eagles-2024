@@ -1,13 +1,14 @@
 'use strict';
 
-const { Message, User } = require('../models');
-const { hashSync } = require('bcrypt')
+const { Message, User, Review, Cart, Product } = require('../models');
+const { hashSync } = require('bcrypt');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await User.bulkCreate([
       { name: 'Alex', email: 'alex@mail.com', hashpass: hashSync('123', 10) },
       { name: 'Bob', email: 'bob@mail.com', hashpass: hashSync('123', 10) },
+      { name: 'Carl', email: 'carl@mail.com', hashpass: hashSync('123', 10) },
     ]);
 
     await Message.bulkCreate([
@@ -41,6 +42,56 @@ module.exports = {
         body: '',
         img: 'birthday.jpeg',
         userId: 2,
+      },
+    ]);
+
+    const api1 = (
+      await fetch('https://fakestoreapi.com/products').then((res) => res.json())
+    ).map((d) => ({
+      name: d.title,
+      description: d.description,
+      price: d.price,
+      category: d.category,
+      image: d.image,
+    }));
+    const api2 = (
+      await fetch('https://api.escuelajs.co/api/v1/products').then((res) => res.json())
+    ).map((d) => ({
+      name: d.title,
+      description: d.description,
+      price: d.price,
+      category: d.category.name,
+      image: d.images[0],
+    }));
+    await Product.bulkCreate([...api1]).catch(console.log);
+    console.log('Products done 1');
+    await Product.bulkCreate([...api2]).catch(console.log);
+    console.log('Products done 2');
+    await Review.bulkCreate([
+      { userId: 1, productId: 1, body: 'Хороший товар, но упаковка мятая', rating: 4 },
+      {
+        userId: 2,
+        productId: 2,
+        body: 'Отличный товар, рекомендую к покупке',
+        rating: 5,
+      },
+      {
+        userId: 3,
+        productId: 3,
+        body: 'Товар хороший, но доставка была долгой',
+        rating: 4,
+      },
+      { userId: 1, productId: 2, body: 'Ужасный телефон', rating: 1 },
+      { userId: 1, productId: 3, body: 'Вкусно поел', rating: 4 },
+      { userId: 2, productId: 4, body: 'Красивый товар', rating: 5 },
+      { userId: 2, productId: 5, body: 'Супер, купил', rating: 5 },
+      { userId: 3, productId: 6, body: 'Купил в подарок', rating: 5 },
+      { userId: 3, productId: 7, body: 'Товар не купил', rating: 1 },
+      {
+        userId: 3,
+        productId: 8,
+        body: 'Отличный товар, рекомендую к покупке',
+        rating: 5,
       },
     ]);
   },

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "db": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
+    "remigrate": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "reseed": "sequelize db:seed:undo:all && sequelize db:seed:all",
     "db:setup": "NODE_ENV=production npx sequelize db:migrate && NODE_ENV=production npx sequelize db:seed:all",
     "start": "NODE_ENV=production node src/server.js"
@@ -22,6 +23,7 @@
     "sequelize-cli": "^6.6.2"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
